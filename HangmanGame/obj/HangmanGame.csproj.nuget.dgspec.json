@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\skolnieks\\Downloads\\HangmanGameV4\\HangmanGame\\HangmanGame.csproj": {}
+    "C:\\Users\\KOT\\Desktop\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\skolnieks\\Downloads\\HangmanGameV4\\HangmanGame\\HangmanGame.csproj": {
+    "C:\\Users\\KOT\\Desktop\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\skolnieks\\Downloads\\HangmanGameV4\\HangmanGame\\HangmanGame.csproj",
+        "projectUniqueName": "C:\\Users\\KOT\\Desktop\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
         "projectName": "HangmanGame",
-        "projectPath": "C:\\Users\\skolnieks\\Downloads\\HangmanGameV4\\HangmanGame\\HangmanGame.csproj",
-        "packagesPath": "C:\\Users\\skolnieks\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\skolnieks\\Downloads\\HangmanGameV4\\HangmanGame\\obj\\",
+        "projectPath": "C:\\Users\\KOT\\Desktop\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
+        "packagesPath": "C:\\Users\\KOT\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\KOT\\Desktop\\HangmanGame-main\\HangmanGame\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\skolnieks\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\KOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,11 +35,22 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
+          "dependencies": {
+            "System.Data.SQLite": {
+              "target": "Package",
+              "version": "[1.0.119, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -63,7 +70,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }
