@@ -44,9 +44,10 @@
             labelWelcome.BackColor = Color.Transparent;
             labelWelcome.Font = new Font("Showcard Gothic", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
             labelWelcome.ForeColor = SystemColors.Control;
-            labelWelcome.Location = new Point(104, 9);
+            labelWelcome.Location = new Point(130, 11);
+            labelWelcome.Margin = new Padding(4, 0, 4, 0);
             labelWelcome.Name = "labelWelcome";
-            labelWelcome.Size = new Size(261, 47);
+            labelWelcome.Size = new Size(321, 59);
             labelWelcome.TabIndex = 0;
             labelWelcome.Text = "Welcome to\r";
             labelWelcome.TextAlign = ContentAlignment.MiddleCenter;
@@ -57,9 +58,10 @@
             labelWelcome2.BackColor = Color.Transparent;
             labelWelcome2.Font = new Font("Showcard Gothic", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
             labelWelcome2.ForeColor = Color.DarkRed;
-            labelWelcome2.Location = new Point(35, 56);
+            labelWelcome2.Location = new Point(44, 70);
+            labelWelcome2.Margin = new Padding(4, 0, 4, 0);
             labelWelcome2.Name = "labelWelcome2";
-            labelWelcome2.Size = new Size(409, 47);
+            labelWelcome2.Size = new Size(511, 59);
             labelWelcome2.TabIndex = 1;
             labelWelcome2.Text = "the Hangman game!";
             labelWelcome2.TextAlign = ContentAlignment.MiddleCenter;
@@ -69,10 +71,10 @@
             textBoxLogin.BackColor = Color.DarkRed;
             textBoxLogin.Font = new Font("Britannic Bold", 18F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxLogin.ForeColor = SystemColors.Control;
-            textBoxLogin.Location = new Point(212, 139);
-            textBoxLogin.Margin = new Padding(3, 2, 3, 2);
+            textBoxLogin.Location = new Point(265, 174);
+            textBoxLogin.Margin = new Padding(4, 2, 4, 2);
             textBoxLogin.Name = "textBoxLogin";
-            textBoxLogin.Size = new Size(246, 34);
+            textBoxLogin.Size = new Size(306, 41);
             textBoxLogin.TabIndex = 2;
             // 
             // textBoxPassword
@@ -80,10 +82,10 @@
             textBoxPassword.BackColor = Color.DarkRed;
             textBoxPassword.Font = new Font("Britannic Bold", 18F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxPassword.ForeColor = SystemColors.Control;
-            textBoxPassword.Location = new Point(212, 207);
-            textBoxPassword.Margin = new Padding(3, 2, 3, 2);
+            textBoxPassword.Location = new Point(265, 259);
+            textBoxPassword.Margin = new Padding(4, 2, 4, 2);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(246, 34);
+            textBoxPassword.Size = new Size(306, 41);
             textBoxPassword.TabIndex = 3;
             textBoxPassword.TextChanged += textBox2_TextChanged;
             // 
@@ -93,9 +95,10 @@
             labelLogin.BackColor = Color.Transparent;
             labelLogin.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelLogin.ForeColor = SystemColors.Control;
-            labelLogin.Location = new Point(212, 112);
+            labelLogin.Location = new Point(265, 140);
+            labelLogin.Margin = new Padding(4, 0, 4, 0);
             labelLogin.Name = "labelLogin";
-            labelLogin.Size = new Size(159, 20);
+            labelLogin.Size = new Size(199, 26);
             labelLogin.TabIndex = 5;
             labelLogin.Text = "Enter your login";
             // 
@@ -105,9 +108,10 @@
             labelPassword.BackColor = Color.Transparent;
             labelPassword.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelPassword.ForeColor = SystemColors.Control;
-            labelPassword.Location = new Point(212, 181);
+            labelPassword.Location = new Point(265, 226);
+            labelPassword.Margin = new Padding(4, 0, 4, 0);
             labelPassword.Name = "labelPassword";
-            labelPassword.Size = new Size(153, 20);
+            labelPassword.Size = new Size(188, 26);
             labelPassword.TabIndex = 6;
             labelPassword.Text = "Enter password";
             // 
@@ -116,21 +120,22 @@
             buttonLoginRegister.BackColor = SystemColors.Control;
             buttonLoginRegister.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
             buttonLoginRegister.ForeColor = SystemColors.ControlText;
-            buttonLoginRegister.Location = new Point(212, 255);
-            buttonLoginRegister.Margin = new Padding(3, 2, 3, 2);
+            buttonLoginRegister.Location = new Point(265, 319);
+            buttonLoginRegister.Margin = new Padding(4, 2, 4, 2);
             buttonLoginRegister.Name = "buttonLoginRegister";
-            buttonLoginRegister.Size = new Size(245, 38);
+            buttonLoginRegister.Size = new Size(306, 48);
             buttonLoginRegister.TabIndex = 7;
             buttonLoginRegister.Text = "LOGIN / REGISTER";
             buttonLoginRegister.UseVisualStyleBackColor = false;
+            buttonLoginRegister.Click += buttonLoginRegister_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackgroundImage = Properties.Resources._360_F_262244537_RjHfRBucxPyo7o6QetIAQYpd5O3h6cEN__1_;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(478, 320);
+            ClientSize = new Size(598, 400);
             Controls.Add(buttonLoginRegister);
             Controls.Add(labelPassword);
             Controls.Add(labelLogin);
@@ -139,7 +144,7 @@
             Controls.Add(labelWelcome2);
             Controls.Add(labelWelcome);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 2, 4, 2);
             Name = "Form1";
             Text = "The Hangman Game";
             ResumeLayout(false);

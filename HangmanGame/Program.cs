@@ -1,4 +1,4 @@
-namespace HangmanGame
+﻿namespace HangmanGame
 {
     internal static class Program
     {
