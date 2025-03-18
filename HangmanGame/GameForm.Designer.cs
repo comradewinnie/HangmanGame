@@ -32,8 +32,7 @@
             label1 = new Label();
             label2 = new Label();
             lblWord = new Label();
-            button26 = new Button();
-            label4 = new Label();
+            btnBackMenu = new Button();
             SuspendLayout();
             // 
             // labelTopic
@@ -96,33 +95,19 @@
             lblWord.Text = "_ _ _";
             lblWord.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // button26
+            // btnBackMenu
             // 
-            button26.BackColor = SystemColors.Control;
-            button26.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button26.ForeColor = Color.DarkRed;
-            button26.Location = new Point(525, 389);
-            button26.Margin = new Padding(4, 2, 4, 2);
-            button26.Name = "button26";
-            button26.Size = new Size(215, 48);
-            button26.TabIndex = 39;
-            button26.Text = "Start again";
-            button26.UseVisualStyleBackColor = false;
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Top;
-            label4.AutoSize = true;
-            label4.BackColor = Color.Transparent;
-            label4.Font = new Font("Showcard Gothic", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.ForeColor = SystemColors.Control;
-            label4.Location = new Point(643, 38);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(310, 59);
-            label4.TabIndex = 40;
-            label4.Text = "Attempts: 7";
-            label4.TextAlign = ContentAlignment.MiddleCenter;
+            btnBackMenu.BackColor = SystemColors.Control;
+            btnBackMenu.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnBackMenu.ForeColor = Color.DarkRed;
+            btnBackMenu.Location = new Point(525, 389);
+            btnBackMenu.Margin = new Padding(4, 2, 4, 2);
+            btnBackMenu.Name = "btnBackMenu";
+            btnBackMenu.Size = new Size(215, 48);
+            btnBackMenu.TabIndex = 39;
+            btnBackMenu.Text = "Back to Menu";
+            btnBackMenu.UseVisualStyleBackColor = false;
+            btnBackMenu.Click += btnBackMenu_Click;
             // 
             // GameForm
             // 
@@ -131,14 +116,13 @@
             BackgroundImage = Properties.Resources._1vis;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1000, 562);
-            Controls.Add(label4);
-            Controls.Add(button26);
+            Controls.Add(btnBackMenu);
             Controls.Add(lblWord);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(labelTopic);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "GameForm";
             Text = "The Hangman Game";
             ResumeLayout(false);
@@ -177,7 +161,6 @@
         private Button button23;
         private Button button24;
         private Button button25;
-        private Button button26;
-        private Label label4;
+        private Button btnBackMenu;
     }
 }

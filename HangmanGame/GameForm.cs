@@ -11,17 +11,18 @@ namespace HangmanGame
     public partial class GameForm : Form
     {
         private string username;
-        private string _selectedTopic;  // Закрытое поле
+        private string _selectedTopic;
         public string SelectedTopic
         {
             get { return _selectedTopic; }
-            private set { _selectedTopic = value; }  // Можно только присвоить значение при инициализации
+            private set { _selectedTopic = value; }
         }
         private string topic;
         private string wordToGuess;
         private char[] guessedWord;
         private int mistakes = 0;
         private int maxMistakes = 6;
+        private int currentWordId;
         private List<Button> letterButtons = new List<Button>();
 
         public GameForm(string user, string selectedTopic)
@@ -31,7 +32,6 @@ namespace HangmanGame
             SelectedTopic = selectedTopic;
             label2.Text = SelectedTopic;
             LoadWord();
-            CreateLetterButtons();
         }
 
         private void LoadWord()
@@ -40,39 +40,69 @@ namespace HangmanGame
             {
                 conn.Open();
 
-                // Получаем topic_id по названию темы
-
+                // Получаем ID темы
                 string getTopicIdQuery = "SELECT id FROM Topics WHERE topic = @topic";
-                SQLiteCommand getTopicIdCmd = new SQLiteCommand(getTopicIdQuery, conn);
-                getTopicIdCmd.Parameters.AddWithValue("@topic", SelectedTopic);
-
-                object topicIdResult = getTopicIdCmd.ExecuteScalar();
-                if (topicIdResult == null)
+                using (SQLiteCommand getTopicIdCmd = new SQLiteCommand(getTopicIdQuery, conn))
                 {
-                    MessageBox.Show("Error: Topic not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Close();
-                    return;
+                    getTopicIdCmd.Parameters.AddWithValue("@topic", SelectedTopic);
+                    object topicIdResult = getTopicIdCmd.ExecuteScalar();
+
+                    if (topicIdResult == null)
+                    {
+                        MessageBox.Show("Error: Topic not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                        return;
+                    }
+
+                    int topicId = Convert.ToInt32(topicIdResult);
+                    int userId = GetUserId(); // Получаем userId
+
+                    if (userId == -1)
+                    {
+                        MessageBox.Show("Error: User not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                        return;
+                    }
+
+                    bool wordFound = false;
+                    while (!wordFound)
+                    {
+                        // Выбираем случайное слово, которое пользователь еще не решал
+                        string getWordQuery = @"
+                    SELECT id, word FROM Words 
+                    WHERE topic_id = @topic_id 
+                    AND id NOT IN (SELECT word_id FROM SolvedWords WHERE user_id = @userId) 
+                    ORDER BY RANDOM() LIMIT 1";
+
+                        using (SQLiteCommand getWordCmd = new SQLiteCommand(getWordQuery, conn))
+                        {
+                            getWordCmd.Parameters.AddWithValue("@topic_id", topicId);
+                            getWordCmd.Parameters.AddWithValue("@userId", userId);
+
+                            using (SQLiteDataReader reader = getWordCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    wordToGuess = reader["word"].ToString().ToUpper();
+                                    currentWordId = Convert.ToInt32(reader["id"]); // Сохраняем id слова
+                                    wordFound = true; // Нашли слово
+                                    CreateLetterButtons();
+                                }
+                                else
+                                {
+                                    // Если нет слов, которые пользователь еще не решал
+                                    MessageBox.Show("Вы уже решили все слова в этой теме!", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MainMenuForm mainMenu = new MainMenuForm(username);
+                                    mainMenu.Show();
+                                    this.Close();
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
-
-                int topicId = Convert.ToInt32(topicIdResult);
-
-                // Выбираем случайное слово из Words по topic_id
-                string getWordQuery = "SELECT word FROM Words WHERE topic_id = @topic_id ORDER BY RANDOM() LIMIT 1";
-                SQLiteCommand getWordCmd = new SQLiteCommand(getWordQuery, conn);
-                getWordCmd.Parameters.AddWithValue("@topic_id", topicId);
-
-                object wordResult = getWordCmd.ExecuteScalar();
-                if (wordResult == null)
-                {
-                    MessageBox.Show("Error: No words found for this topic!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Close();
-                    return;
-                }
-
-                wordToGuess = wordResult.ToString().ToUpper();
             }
 
-            // Проверяем, что слово загружено корректно
             if (string.IsNullOrEmpty(wordToGuess))
             {
                 MessageBox.Show("Error: Loaded word is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -90,27 +120,26 @@ namespace HangmanGame
         }
 
 
+
         private void CreateLetterButtons()
         {
             string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            int columns = 13; // Количество столбцов
+            int columns = 13;
 
             using (Graphics g = this.CreateGraphics())
             {
-                float dpiScale = g.DpiX / 96f; // Коэффициент масштабирования DPI
-                int buttonSize = (int)(40 * dpiScale); // Масштабируем размер кнопки
-                int padding = (int)(2 * dpiScale); // Масштабируем отступ
+                float dpiScale = g.DpiX / 96f;
+                int buttonSize = (int)(40 * dpiScale);
+                int padding = (int)(2 * dpiScale);
 
-                // Вычисляем ширину всей клавиатуры
                 int keyboardWidth = columns * buttonSize + (columns - 1) * padding;
                 int offsetX = (int)(100 * dpiScale);
-                // Центрируем клавиатуру по ширине формы
                 int startX = (this.ClientSize.Width - keyboardWidth) / 2 + offsetX;
-                int startY = this.ClientSize.Height - (int)(250 * dpiScale); // Отступ от нижнего края
+                int startY = this.ClientSize.Height - (int)(250 * dpiScale);
 
                 foreach (var btn in letterButtons)
                 {
-                    this.Controls.Remove(btn); // Очищаем старые кнопки, если они есть
+                    this.Controls.Remove(btn);
                 }
                 letterButtons.Clear();
 
@@ -133,8 +162,20 @@ namespace HangmanGame
                 }
             }
         }
-
-
+        private int GetUserId()
+        {
+            using (SQLiteConnection conn = new SQLiteConnection("Data Source=database.db;Version=3;"))
+            {
+                conn.Open();
+                string getUserIdQuery = "SELECT id FROM users WHERE login = @username";
+                using (SQLiteCommand getUserIdCmd = new SQLiteCommand(getUserIdQuery, conn))
+                {
+                    getUserIdCmd.Parameters.AddWithValue("@username", username);
+                    object userIdResult = getUserIdCmd.ExecuteScalar();
+                    return userIdResult != null ? Convert.ToInt32(userIdResult) : -1;
+                }
+            }
+        }
 
         private void LetterButton_Click(object sender, EventArgs e)
         {
@@ -155,8 +196,14 @@ namespace HangmanGame
 
                 if (!guessedWord.Contains('_'))
                 {
+                    int userId = GetUserId();
+                    if (userId != -1)
+                    {
+                        UpdateUserStats(true, currentWordId, userId);
+                    }
                     MessageBox.Show("Congratulations! You won!", "Victory", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UpdateUserStats(true);
+                    MainMenuForm mainMenu = new MainMenuForm(username);
+                    mainMenu.Show();
                     this.Close();
                 }
             }
@@ -167,8 +214,14 @@ namespace HangmanGame
 
                 if (mistakes >= maxMistakes)
                 {
+                    int userId = GetUserId();
+                    if (userId != -1)
+                    {
+                        UpdateUserStats(false, currentWordId, userId);
+                    }
                     MessageBox.Show("Game over! The word was: " + wordToGuess, "Defeat", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    UpdateUserStats(false);
+                    MainMenuForm mainMenu = new MainMenuForm(username);
+                    mainMenu.Show();
                     this.Close();
                 }
             }
@@ -178,32 +231,63 @@ namespace HangmanGame
 
         private void DrawHangman()
         {
-            string imagePath = $"Images/{mistakes + 1}vis.png"; // Путь к картинке
+            string imagePath = $"Images/{mistakes + 1}vis.png";
 
-            if (System.IO.File.Exists(imagePath)) // Проверяем, существует ли файл
+            if (System.IO.File.Exists(imagePath))
             {
                 this.BackgroundImage = Image.FromFile(imagePath);
-                this.BackgroundImageLayout = ImageLayout.Stretch; // Растягиваем по окну
+                this.BackgroundImageLayout = ImageLayout.Stretch;
             }
         }
 
-        private void UpdateUserStats(bool won)
+        private void UpdateUserStats(bool won, int wordId, int userId)
         {
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=database.db;Version=3;"))
             {
                 conn.Open();
-                string query = won ?
-                    "UPDATE users SET points = points + 10, words = words + 1 WHERE login = @username" :
-                    "UPDATE users SET points = points - 5 WHERE login = @username";
 
-                SQLiteCommand cmd = new SQLiteCommand(query, conn);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.ExecuteNonQuery();
+                using (SQLiteTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = won ?
+                            "UPDATE users SET points = points + 10, words = words + 1 WHERE id = @userId" :
+                            "UPDATE users SET points = points - 5 WHERE id = @userId";
+
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@userId", userId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        string insertQuery = "INSERT INTO SolvedWords (word_id, user_id) VALUES (@wordId, @userId)";
+                        using (SQLiteCommand insertCmd = new SQLiteCommand(insertQuery, conn, transaction))
+                        {
+                            insertCmd.Parameters.AddWithValue("@wordId", wordId);
+                            insertCmd.Parameters.AddWithValue("@userId", userId);
+                            insertCmd.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error updating user stats: " + ex.Message);
+                    }
+                }
             }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
+
+        private void btnBackMenu_Click(object sender, EventArgs e)
+        {
+            MainMenuForm mainMenu = new MainMenuForm(username);
+            mainMenu.Show();
             this.Close();
         }
     }

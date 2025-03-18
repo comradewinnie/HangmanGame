@@ -1215,19 +1215,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KOT\\.nuget\\packages\\": {}
+    "C:\\Users\\skolnieks\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KOT\\Downloads\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
+      "projectUniqueName": "C:\\Users\\skolnieks\\Downloads\\HangmanGame2-main\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
       "projectName": "HangmanGame",
-      "projectPath": "C:\\Users\\KOT\\Downloads\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
-      "packagesPath": "C:\\Users\\KOT\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KOT\\Downloads\\HangmanGame-main\\HangmanGame\\obj\\",
+      "projectPath": "C:\\Users\\skolnieks\\Downloads\\HangmanGame2-main\\HangmanGame-main\\HangmanGame\\HangmanGame.csproj",
+      "packagesPath": "C:\\Users\\skolnieks\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\skolnieks\\Downloads\\HangmanGame2-main\\HangmanGame-main\\HangmanGame\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\KOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\skolnieks\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1248,11 +1253,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1283,7 +1283,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
