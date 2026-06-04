@@ -20,4 +20,4 @@ Admin panel:
 
 # About it
 
-The game was created as part of the Programming II course by two 12th grade students.
+This game was created as a part of the Programming II course by me and my friend in March 2025.
